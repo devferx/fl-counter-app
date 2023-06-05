@@ -38,7 +38,7 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
               ),
             ),
             Text(
-              'Click${clickCounter > 1 ? 's' : ''}',
+              'Click${clickCounter == 1 ? '' : 's'}',
               style: const TextStyle(fontSize: 25),
             ),
           ],
@@ -47,37 +47,58 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            shape: const StadiumBorder(),
+          CustomButtom(
+            icon: Icons.refresh_rounded,
             onPressed: () {
               setState(() {
                 clickCounter = 0;
               });
             },
-            child: const Icon(Icons.refresh_rounded),
           ),
           const SizedBox(height: 10),
-          FloatingActionButton(
-            shape: const StadiumBorder(),
+          CustomButtom(
+            icon: Icons.exposure_minus_1_outlined,
+            onPressed: () {
+              if (clickCounter == 0) return;
+              setState(() {
+                clickCounter -= 1;
+              });
+            },
+          ),
+          const SizedBox(height: 10),
+          CustomButtom(
+            icon: Icons.plus_one,
             onPressed: () {
               setState(() {
                 clickCounter += 1;
               });
             },
-            child: const Icon(Icons.add),
-          ),
-          const SizedBox(height: 10),
-          FloatingActionButton(
-            shape: const StadiumBorder(),
-            onPressed: () {
-              setState(() {
-                clickCounter -= 1;
-              });
-            },
-            child: const Icon(Icons.remove),
           ),
         ],
       ),
+    );
+  }
+}
+
+class CustomButtom extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  const CustomButtom({
+    super.key,
+    required this.icon,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      // shape: const StadiumBorder(),
+      // enableFeedback: true,
+      // elevation: 10,
+      elevation: 5,
+      onPressed: onPressed,
+      child: Icon(icon),
     );
   }
 }
